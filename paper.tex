@@ -1,0 +1,143 @@
+\documentclass[11pt,a4paper,twocolumn]{article}
+% -*-mode: tex;coding: utf-8;-*-
+
+% direkt input of umlauts
+\usepackage[utf8]{inputenc}
+% use standard PS-Font
+\usepackage{times}
+% narrower border
+\usepackage[colorlinks=false, pdfborder={0 0 0}]{hyperref}
+% enable [b] placement option for twocolumn figures (figure*)
+\usepackage{stfloats}
+
+\usepackage{subeqn}
+\usepackage{listings}
+
+% make description item font customizable
+\usepackage{enumitem}
+
+% customize figure and table captions
+\usepackage[font=small,margin=1ex,labelfont=bf]{caption}
+
+% subfigures
+\usepackage{subfigure}
+%\subfigtopskip=0pt
+%\subfigcapskip=0pt
+%\subfigbottomskip=0pt
+
+
+
+% page layout
+\usepackage{calc}
+\usepackage[left=2.0cm,right=2.0cm,top=3.0cm,bottom=3.0cm]{geometry}
+
+% comment out for English:
+\usepackage[ngerman]{babel}
+
+% vspace rather than paragraph indention
+\usepackage{parskip}
+% no extra space after periods
+\frenchspacing
+
+% avoid words crossing right border
+\tolerance=9000
+
+\usepackage{graphicx}
+
+% Header and footer
+%=======================================================================
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+% ersetzen:
+\lhead{Bair: Word2Vec}
+%% \chead{}
+\rhead{Wahlpflicht Praktikum WS 2018/2019}
+\renewcommand{\footrulewidth}{0pt}
+
+% pagestyle on first page
+\fancypagestyle{firstpage}{
+  \fancyhead{}
+  \cfoot{\footnotesize{\em Wahlpflicht Praktikum WS 2018/2019, Hochschule Niederrhein, Fachbereich Elektrotechnik \& Informatik}}
+  \renewcommand{\headrulewidth}{0pt}
+}
+
+% Title
+%=======================================================================
+% Ersetzen durch Titel des Vortrags:
+\title{\vspace*{-10mm}Projekt Energieeffizienzanalyse}
+\author{
+% Autor und Email-Adresse ersetzen:
+Team Energieeffizienzanalyse\\
+Hochschule Niederrhein\\
+Fachbereich Elektrotechnik und Informatik\\
+Reinarzstr. 49, 47805 Krefeld
+}
+\date{}
+
+%
+%=======================================================================
+\begin{document}
+
+% a), b), c) fur subitems
+%\renewcommand{\labelenumi}{\alph{enumi})}
+\renewcommand{\labelenumi}{\arabic{enumi})}
+
+%\thispagestyle{empty}
+
+\twocolumn[
+	\begin{@twocolumnfalse}
+		\maketitle
+		\begin{abstract}
+			...
+		\end{abstract}
+		\vspace*{5ex}
+	\end{@twocolumnfalse}
+]
+\thispagestyle{firstpage}
+
+%-----------------------------------------------------------------------
+\section{Aufgabe \& Motivation}
+...
+
+%-----------------------------------------------------------------------
+\section{Algorithmen}
+...
+
+\subsection{Korrelationsmatrix}
+...
+
+\subsection{Lineare Interpolation}
+...
+
+\subsection{Polynomielle Interpolationsverfahren}
+...
+
+\subsection{"Intelligente" Interpolationsverfahren}
+...
+
+%-----------------------------------------------------------------------
+\section{Heuristiken}
+...
+
+\subsection{Für überschaubare Datenlücken}
+...
+
+\subsection{Für sehr große Datenlücken}
+...
+
+%-----------------------------------------------------------------------
+\section{Evaluation \& Bewertung}
+...
+
+%-----------------------------------------------------------------------
+\section{Ausblick}
+...
+
+% References	
+%-----------------------------------------------------------------------
+\bibliographystyle{ieeetr}
+\bibliography{paper}
+
+
+\end{document}
+
