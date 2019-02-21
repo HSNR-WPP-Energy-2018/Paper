@@ -1,0 +1,11 @@
+\label{sec:easy_algorithms}
+%-----------------------------------------------------------------------
+
+
+\subsection{Lineare Interpolation}
+
+Mit der Verwendung einer linearen Interpolation werden meistens Fälle betrachtet, in denen sich Lücken zwischen bereits vorhandenen Daten befinden. Bei diesem Verfahren wird für jeden Verbrauchszeitpunkt $x$, dessen Verbrauchswert $y$ unbekannt ist, eine Gerade zwischen zwei benachbarte Punkte $x_1$ und $x_2$ gelegt, wobei gilt $x1\leq\ $x $\leq \ x_2$. Für jeden unbekannten Datenpunkt $P(x/y)$, der auf dieser Gerade liegt, ergibt sich die Formel:
+$$y = y_1 + \frac{y_2 - y_1}{x_2 - x_1} \cdot (x - x_1)$$
+Die lineare Interpolation eignet sich dazu, zu ermitteln, in welchem Wertebereich sich die nicht erfassten Verbrauchswerte befinden können. Die Ergebnisse wurden in diesem Projekt als Vergleichswerte für die verbesserten Interpolations-Algorithmen verwendet, um deren Stabilität und Zuverlässigkeit zu bewerten. Für eine Erfassung der tatsächlichen Verbrauchswerte eignet sich die lineare Interpolation weniger, da zwar ein steter, aber kein glatter Verlauf der Funktion erzeugt wird. Darüber hinaus birgt sie die Problematik, dass sie nur die direkten benachbarten Verbrauchswerte betrachtet und Schwankungen im Verbrauchsverlauf ignoriert.
+%-----------------------------------------------------------------------
+
