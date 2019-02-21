@@ -4,8 +4,22 @@
 
 \subsection{Lineare Interpolation}
 
-Mit der Verwendung einer linearen Interpolation werden meistens Fälle betrachtet, in denen sich Lücken zwischen bereits vorhandenen Daten befinden. Bei diesem Verfahren wird für jeden Verbrauchszeitpunkt $x$, dessen Verbrauchswert $y$ unbekannt ist, eine Gerade zwischen zwei benachbarte Punkte $x_1$ und $x_2$ gelegt, wobei gilt $x1\leq\ $x $\leq \ x_2$. Für jeden unbekannten Datenpunkt $P(x/y)$, der auf dieser Gerade liegt, ergibt sich die Formel:
+Bei der Verwendung einer linearen Interpolation werden meistens Fälle betrachtet, in denen sich Lücken zwischen bereits vorhandenen Daten befinden. Dabei wird unterstellt, dass der Verbrauchsverlauf nahezu linear ist. Für jeden Verbrauchszeitpunkt $x$, dessen Verbrauchswert $y$ unbekannt ist, eine Gerade zwischen zwei benachbarte Punkte $x_1$ und $x_2$ gelegt, wobei gilt $x1\leq\ $x $\leq \ x_2$. Für jeden unbekannten Datenpunkt $P(x/y)$, der auf dieser Gerade liegt, ergibt sich die Formel:
 $$y = y_1 + \frac{y_2 - y_1}{x_2 - x_1} \cdot (x - x_1)$$
 Die lineare Interpolation eignet sich dazu, zu ermitteln, in welchem Wertebereich sich die nicht erfassten Verbrauchswerte befinden können. Die Ergebnisse wurden in diesem Projekt als Vergleichswerte für die verbesserten Interpolations-Algorithmen verwendet, um deren Stabilität und Zuverlässigkeit zu bewerten. Für eine Erfassung der tatsächlichen Verbrauchswerte eignet sich die lineare Interpolation weniger, da zwar ein steter, aber kein glatter Verlauf der Funktion erzeugt wird. Darüber hinaus birgt sie die Problematik, dass sie nur die direkten benachbarten Verbrauchswerte betrachtet und Schwankungen im Verbrauchsverlauf ignoriert.
 %-----------------------------------------------------------------------
 
+\subsection{Polynomielle Interpolationsverfahren}
+Die fehlenden Verbrauchswerte sollen im Folgenden auf Basis eines mathematischen Verfahrens ermittelt werden, das nicht nur die direkten benachbarten Punkte, sondern den gesamten Verlauf inklusive Schwankungen und Peaks berücksichtigt. Das Ziel ist es, einen möglichst realistischen Energieverbrauch zu rekonstruieren.\\
+Hierfür werden polynomielle Interpolationsverfahren verwendet. Es wird ein Polynom gesucht, das exakt durch die bekannten Punkte aus den Messdaten verläuft. Durch die gegebenen Messdaten wird eine Kurve gelegt, um zu $n+1$ verschiedenen Datenpunkten ein Interpolationspolynom maximal $n-ten$ Grades zu finden.
+
+\subsubsection{Interpolation nach Newton}
+Für n Stützstellen wird eine Annäherung an die Polynomfunktion vom möglichst kleinen Grad an (bis maximal Grad $n$) durchgeführt. Gesucht ist eine Polynomfunktion für $n+1$ Stützstellen, mit der die fehlenden Verbrauchsdaten beim Zeitpunkt $n+1$ berechnet werden können. Das Interpolationspolynom ist folgendermaßen aufgebaut:
+$$p_n(x)=a_0+a_1(x_n-x_0)+...+a_n(x_n-x_0)...(x_n-x_{n-1})$$
+Für jeden weiteren fehlenden Messwert zum Zeitpunkt $n+1$ wird die Formel um $a_{n+1}(x_{n+1}-x_{0})...(x_{n+1}-x_{n})$ erweitert. Das hat den Vorteil, dass das Polynom bei nachfolgenden Punkten nicht komplett neu berechnet werden muss und somit Laufzeit eingespart wird, wohingegen vergleichbare Verfahren wie die Interpolation nach Lagrange hingegen das Polynom mit jedem fehlenden Datenpunkt neu aufbauen.\\
+Allerdings hat die Interpolation nach Newton deutliche Schwächen: Das Polynom wird mit zunehmendem Grad instabiler und schwingt stark zwischen den Datenpunkten. Dadurch werden unrealistisch hohe oder niedrige Werte erzeugt, die in einem realen Energieverbrauchsverlauf niemals auftreten können. Deshalb sollte auf ein Polynom hohen Grades verzichtet werden.\\
+Das nächste Interpolationsverfahren, das im Rahmen des Projektes implementiert wurde, betrachtet deshalb statt des gesamten Verlaufes nur die $n$ nächsten Nachbarn.
+
+\subsubsection{Splines}
+
+%-----------------------------------------------------------------------
