@@ -1,0 +1,16 @@
+\section{Heuristiken}
+Text folgt
+
+\subsection{Feiertage}
+Der Energieverbrauch an Feiertagen gestaltet sich normalerweise anders als der Energieverbrauch an Wochentagen. Die Person ist an Feiertagen normalerweise zu Hause, weil sie nicht arbeiten muss und weil die Geschäfte geschlossen haben. Für die Verbrauchsschätzung werden die Feiertage deshalb wie Wochenend-Tage bewertet.\\
+Die Messzeitpunkte werden im Datentyp LocalDateTime abgebildet. Dieser Datentyp kann zwar Wochentage erfassen, aber keine Feiertage. Des Weiteren gibt es für Java keine geeigneten Libraries, um Feiertage abhängig vom Wohnort (Land und Bundesland) zu konfigurieren. Das Projektteam hat deshalb ein Verfahren implementiert, das das Einlesen von iCalendar-Dateien zulässt, die lediglich im Eingabeordner abgelegt werden müssen.
+
+\subsection{Mustererkennung aus Verbrauchsverläufen}
+Wenn die Messdaten größtenteils vollständig und die Datenlücken überschaubar sind, ist es möglich, anhand der vorhandenen Daten ein Verbrauchsmuster zu erkennen. Das Verbrauchsmuster kann dann als Schablone dienen, die nachträglich auf die interpolierten Werte gelegt wird, um Datenausreißer zu identifizieren und auf einen realistischen Wert abzuändern.\\
+Für diese Heuristik wurden im ersten Schritt Intervalle gebildet, die einen bestimmten Zeitabschnitt repräsentieren. Die Größe der Intervalle kann dabei individuell konfiguriert werden. Eine Möglichkeit ist die Bildung von Intervallen mit der Größe 4, d.h. [00:00-03:39] Uhr, [04:00-07:59] Uhr und folgende. Die Messwerte werden komplett durchlaufen und den Intervallen zugeordnet. Danach werden sowohl ein globaler Durchschnittsverbrauch für den gesamten Datensatz als auch der Durchschnittsverbrauch für jedes Intervall gebildet. Diese Kennzahl gibt Auskunft darüber, wie hoch der Stromverbrauch der Person im aktuellen Intervall ist. Liegt der Durchschnittsverbrauch eines Invervalls wie bspw. [00:00-03:59] Uhr deutlich unter dem globalen Durchschnittsverbrauch, ist es wahrscheinlich, dass die Person innerhalb des betrachteten Zeitrahmens normalerweise schläft oder außer Haus ist.\\
+Anschließend wird diese Heuristik auf die interpolierten Werte angewendet. Für jedes Intervall können Toleranzbereiche konfiguriert werden, die vorgeben, ab welcher Abweichung vom Durchschnittsverbrauch der interpolierte Wert angepasst wird. Liegt der interpolierte Wert zum Beispiel mehr als $50\%$ über dem Durchschnitt, wird er auf den Durchschnittswert angepasst.
+
+\subsection{Geeignete Verfahren für sehr große Datenlücken}
+...
+
+%-----------------------------------------------------------------------
