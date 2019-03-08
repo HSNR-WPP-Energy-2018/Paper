@@ -1,0 +1,28 @@
+%!TEX root = ../paper.tex
+
+\subsection{Korrelationsmatrizen}
+
+Es gibt Verbraucher, die verfügen über keine Lastgänge, wissen allerdings, wie hoch ihr Gesamtverbrauch im Jahr war. Wenn man dieses Wissen jetzt aufteilt auf die einzelnen Monate und ggf. sogar Tage, dann kann daraus ein Lastgang erstellt werden. Die erste Idee ist also das Ermitteln der Abhängigkeiten der Monate von den anderen Monaten. Allgemein ist bekannt, dass im Sommer zum Beispiel ca. zehn bis fünfzehn Prozent weniger verbraucht wird als im Winter. Für einen Lastgang werden allerdings deutlich detailliertere Informationen benötigt - wie fällt zum Beispiel der Unterschied vom Januar zum Februar aus? 
+
+Daher wäre eine Matrix, die die Abhängigkeiten zu den anderen Monaten darstellt, nützlich. Zunächst erstellen wir eine durchschnittliche Stundenvektorliste. Dafür durchlaufen wir die Lastgänge von einem Jahr, entfernen mithilfe des Boxplots Algorithmus starke Ausreißer von jedem Tag, summieren dann alle Verbrauchswerte derselben Stunde (also 00:00, 00:15, 00:30, 00:45) auf und teilen die Summen durch die Anzahl an Werten von diesen Stunde (4 wenn keine Werte durch den Boxplot rausgelöscht wurden), sodass wir am Ende eine Vektorliste haben, die pro Tag nur noch 24 hat, statt wie zuvor 96 Werte. Ausreißer bei den 15-Minuten-Werten werden entfernt, da diese den Durchschnitt stark ändern könnten und es sogar kontraproduktiv ist, wenn Werte erfasst werden, bei dem ein Verbraucher zum Beispiel für 3 Minuten alle Elektrogeräte (inkl Herdplatten, Backoffen, ...) angeschaltet hat, um einen Stresstest auszuführen. Auf der Stundenvektorliste basierend wird jetzt eine Tagesvektorliste erstellt, indem alle Werte von einem Tag addiert und wieder durch Anzahl geteilt werden. Dasselbe wird ebenfalls für die Monatsvektorliste durchgeführt. Dieser Vorgang wird für beide Lastgänge gemacht, die vorhanden sind. 
+
+Der nächste Schritt ist das erstellen der Korrelationsmatrizen. Auch hier wird der Vorgang identisch für alle Matrizen (und jeweils alle Lastgänge) werden und daher wird nur die Erstellung der Monatsmatrix erläutert. Prinzipiell wird jeder Monat mit jedem Monat dividiert, was folgender Code-Ausschnitt demonstriert:
+
+\begin{algorithm}
+	\caption{Korrelationsmatrix}\label{alg:euclid}
+	\begin{algorithmic}[1]
+		\Procedure{createCorMatrix}{$MonVekList$}
+		\State $MonatsKorMatrix\gets new Array[12][12]$
+	    \For{\texttt{i = 0 BIS 11}}
+	    	\For{\texttt{j = 0 BIS 11}}
+				\State \texttt{MonatsKorMatrix[i][j] = MonVekList[i] / MonVekList[j]}
+			\EndFor
+		\EndFor
+		\State \textbf{return} $MonatsKorMatrix$
+		\EndProcedure
+	\end{algorithmic}
+\end{algorithm}
+
+Anschließend werden alle Korrelationsmatrizen desselben Typs, also zum Beispiel alle Monatskorrelationsmatrizen, aufaddiert und durch die Anzahl geteilt, um so eine durchschnittliche Korrelationsmatrix zu erstellen. Einzelne Ausreißer wurden zwar durch den Boxplot Algorithmus eliminiert, so kann man aber auch ganze Lastgänge etwas angleichen, denn vermutlich kein Haushalt wird identisch zu den Lastgängen sein, mit denen hier im Projekt gearbeitet werden. Je mehr Lastgänge in diesem Algorithmus eingeflossen werden, desto genauer werden die einzelnen Relationen zwischen den Monaten.
+
+Jetzt ist es möglich einen Gesamtverbrauch von einem Jahr anzugeben und dadurch zu berechnen, wie viel die einzelnen Stunden, Tage, Monate, ... von dem Gesamtverbrauch ausmachen. Das Ergebnis ist allerdings nur eine Annäherung und das, nachdem sehr viele, unterschiedliche Lastgänge verfügbar sind und die in diesen Algorithmus mit einbezogen werden.
